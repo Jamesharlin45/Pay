@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crypto Payment Gateway</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Lobster&display=swap');
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #333333;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden; /* Prevent scrolling */
+        }
+
+        /* Welcome Page */
+        .welcome-page {
+            text-align: center;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            max-width: 400px;
+            width: 90%;
+            position: relative;
+        }
+
+        .welcome-page h1 {
+            font-family: Arial, sans-serif;
+            color: #CC6600;
+            font-size: 26px;
+            animation: pulse 2s infinite;
+        }
+
+        .welcome-page p {
+            color: #333;
+            font-size: 14px;
+            margin: 10px 0;
+        }
+
+        .welcome-page .proceed-btn {
+            background-color: #CC6600;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            font-size: 14px;
+            cursor: pointer;
+        }
+
+        .welcome-page .proceed-btn:hover {
+            background-color: #218838;
+        }
+
+        .payment-container {
+            background-color: #fff;
+            padding: 10px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            width: 90%;
+            max-width: 400px;
+            text-align: center;
+            position: relative;
+            display: none; /* Initially hidden */
+        }
+
+        h1, h2 {
+            color: #333;
+            margin: 5px 0;
+        }
+
+        h1 {
+            font-family: 'Lobster', cursive;
+            font-size: 22px;
+            animation: pulse 2s infinite;
+            color: #007bff;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        .pricing {
+            font-size: 14px;
+            color: #555;
+            margin-bottom: 10px;
+        }
+
+        .pricing p {
+            font-weight: bold;
+            color: #ff0000;
+            font-size: 16px;
+            animation: pulse 2s infinite;
+        }
+
+        .crypto-section {
+            margin-top: 10px;
+        }
+
+        .crypto-networks {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+        }
+
+        .crypto-card {
+            background-color: #f7f7f7;
+            padding: 6px;
+            border-radius: 10px;
+            width: 48%;
+            margin: 5px 0;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        .wallet-address {
+            margin-top: 5px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .wallet-address input {
+            width: 65%;
+            padding: 4px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            text-align: center;
+            font-size: 12px;
+        }
+
+        .wallet-address button {
+            padding: 4px 8px;
+            margin-left: 5px;
+            background-color: #006600;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 12px;
+        }
+
+        .wallet-address button:hover {
+            background-color: #218838;
+        }
+
+        .confirm-btn {
+            margin-top: 10px;
+            padding: 8px 12px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 14px;
+            cursor: pointer;
+        }
+
+        .confirm-btn:hover {
+            background-color: #0056b3;
+        }
+
+        .warning-text {
+            margin-top: 10px;
+            color: #ff0000;
+            font-weight: bold;
+            font-size: 12px;
+        }
+
+        @media (max-width: 600px) {
+            .crypto-card {
+                width: 100%;
+            }
+
+            .wallet-address input {
+                width: 60%;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Welcome Page -->
+    <div class="welcome-page" id="welcomePage">
+        <h1>Pay via Cryptocurrency we only accept payment in cryptocurrency</h1>
+        <p>Get your subscription instantly with our fastest verification when you pay via crypto.</p>
+        <p>Benefits: <br> Bigger odss VIP<br>Super trusted</p>
+        <p>After successful payment, you'll receive a VIP link via email for VIP account access.</p>
+        <button class="proceed-btn" onclick="showPayment()">Proceed to Payment</button>
+    </div>
+
+    <!-- Hidden Payment Container -->
+    <div class="payment-container" id="paymentContainer">
+        <h1>Payment Details</h1>
+        <div class="pricing">
+            <p>$15.30 WEEKLY</p>
+            <p>$30.00 1 MONTH</p>
+            <p>$70.00 FOR 2 MONTHS</p>
+        </div>
+
+        <!-- Bitcoin Section -->
+        <div class="crypto-section">
+            <h2>Bitcoin (BTC)</h2>
+            <div class="crypto-card">
+                <div class="wallet-address">
+                    <input type="text" id="btcAddress" value="1G5Jywc7av5oATwhUgtdME2wzoFSuTcxCh" readonly>
+                    <button onclick="copyAddress('btcAddress')">Copy Address</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- USDT Section (TRC20 and BEP20) -->
+        <div class="crypto-section">
+            <h2>USDT (Tether)</h2>
+            <div class="crypto-networks">
+                <div class="crypto-card">
+                    <p> (TRC20)</p>
+                    <div class="wallet-address">
+                        <input type="text" id="usdtTRC20" value="TL9pTquHXyUPseTUH36c4ikeRagojSoxwH" readonly>
+                        <button onclick="copyAddress('usdtTRC20')">Copy Address</button>
+                    </div>
+                </div>
+
+                <div class="crypto-card">
+                    <p>Smart Chain (BEP20)</p>
+                    <div class="wallet-address">
+                        <input type="text" id="usdtBEP20" value="0xb7c75a3b7da067f0d41faf7db10c9ca5f59cdd54" readonly>
+                        <button onclick="copyAddress('usdtBEP20')">Copy Address</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Ethereum Section -->
+        <div class="crypto-section">
+            <h2>Ethereum (ETH)</h2>
+            <div class="crypto-card">
+                <div class="wallet-address">
+                    <input type="text" id="ethAddress" value="0xb7c75a3b7da067f0d41faf7db10c9ca5f59cdd54" readonly>
+                    <button onclick="copyAddress('ethAddress')">Copy Address</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- TON Coin Section -->
+        <div class="crypto-section">
+            <h2>TON Coin TONMEMO "105262316"</h2>
+            <div class="crypto-card">
+                <div class="wallet-address">
+                    <input type="text" id="tonAddress" value="EQD5mxRgCuRNLxKxeOjG6r14iSroLF5FtomPnet-sgP5xNJb" readonly>
+                    <button onclick="copyAddress('tonAddress')">Copy Address</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Not Coin Section -->
+        <div class="crypto-section">
+            <h2>Tron TRX</h2>
+            <div class="crypto-card">
+                <div class="wallet-address">
+                    <input type="text" id="notCoinAddress" value="TL9pTquHXyUPseTUH36c4ikeRagojSoxwH" readonly>
+                    <button onclick="copyAddress('notCoinAddress')">Copy Address</button>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- Confirm Payment Button -->
+        <div class="warning-text">
+            Before clicking "Confirm Payment", make sure you've sent the exact amount and attach a screenshot or a detailed proof of your transaction.
+        </div>
+        <button class="confirm-btn" onclick="confirmPayment()">Contact Us to Confirm Payment</button>
+    </div>
+
+    <script>
+        function showPayment() {
+            document.getElementById('welcomePage').style.display = 'none';
+            document.getElementById('paymentContainer').style.display = 'block';
+            document.body.style.overflow = 'auto';  // Allow scrolling on payment page
+        }
+
+        function copyAddress(id) {
+            var copyText = document.getElementById(id);
+            copyText.select();
+            copyText.setSelectionRange(0, 99999); // For mobile devices
+            document.execCommand("copy");
+        }
+
+        function confirmPayment() {
+            window.open("mailto:bettviptitan@gmail.com?subject=Crypto Payment&body=I have made a payment. check my transaction");
+        }
+    </script>
+</body>
+</html>
