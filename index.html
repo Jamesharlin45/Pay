@@ -1,113 +1,282 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Crypto Payment Gateway</title>
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Lobster&display=swap');
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+  <title>Pay Now</title>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #333333;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            overflow: hidden; /* Prevent scrolling */
-        }
+    body {
+      font-family: 'Space Grotesk', sans-serif;
+      background: #0A0304;
+      color: #F5E6E7;
+      min-height: 100vh;
+      max-width: 480px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 40px 24px 120px;
+    }
 
-        /* Welcome Page */
-        .welcome-page {
-            text-align: center;
-            background-color: #fff;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-            max-width: 400px;
-            width: 90%;
-            position: relative;
-        }
+    /* ── HEADER ── */
+    .brand-icon {
+      width: 70px; height: 70px;
+      background: linear-gradient(135deg, #C0112A, #FF4D5E);
+      border-radius: 22px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 32px;
+      box-shadow: 0 8px 40px rgba(232, 25, 44, 0.55);
+      margin-bottom: 20px;
+      animation: pulse 3s ease-in-out infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { box-shadow: 0 8px 40px rgba(232,25,44,0.55); }
+      50%       { box-shadow: 0 8px 60px rgba(255,77,94,0.7); }
+    }
 
-        .welcome-page h1 {
-            font-family: Arial, sans-serif;
-            color: #CC6600;
-            font-size: 26px;
-            animation: pulse 2s infinite;
-        }
+    h1 {
+      font-size: 28px; font-weight: 700;
+      letter-spacing: -0.5px;
+      background: linear-gradient(135deg, #FF6B6B, #E8192C);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 8px;
+      text-align: center;
+    }
+    .subtitle {
+      font-size: 14px; color: #8A6369;
+      margin-bottom: 48px;
+      text-align: center;
+    }
 
-        .welcome-page p {
-            color: #333;
-            font-size: 14px;
-            margin: 10px 0;
-        }
+    /* ── PAY BUTTONS ── */
+    .buttons { width: 100%; display: flex; flex-direction: column; gap: 16px; }
 
-        .welcome-page .proceed-btn {
-            background-color: #CC6600;
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 5px;
-            font-size: 14px;
-            cursor: pointer;
-        }
+    .pay-btn {
+      display: flex; align-items: center; gap: 18px;
+      width: 100%;
+      padding: 22px 24px;
+      border-radius: 18px;
+      border: 1px solid rgba(255,255,255,0.07);
+      text-decoration: none; color: #F5E6E7;
+      cursor: pointer;
+      position: relative; overflow: hidden;
+      transition: transform 0.15s ease, box-shadow 0.2s ease;
+    }
+    .pay-btn:active { transform: scale(0.97); }
 
-        .welcome-page .proceed-btn:hover {
-            background-color: #218838;
-        }
+    /* Mobile & Card */
+    .btn-mobile {
+      background: linear-gradient(135deg, #1E0B0D, #2A0C10);
+      border-color: rgba(232, 25, 44, 0.25);
+      box-shadow: 0 4px 30px rgba(232,25,44,0.18);
+    }
+    .btn-mobile:hover {
+      box-shadow: 0 6px 40px rgba(232,25,44,0.35);
+      border-color: rgba(232,25,44,0.45);
+    }
 
-        .payment-container {
-            background-color: #fff;
-            padding: 10px;
-            border-radius: 10px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-            width: 90%;
-            max-width: 400px;
-            text-align: center;
-            position: relative;
-            display: none; /* Initially hidden */
-        }
+    /* Crypto */
+    .btn-crypto {
+      background: linear-gradient(135deg, #1A0C06, #271306);
+      border-color: rgba(255, 100, 50, 0.25);
+      box-shadow: 0 4px 30px rgba(255,85,51,0.15);
+    }
+    .btn-crypto:hover {
+      box-shadow: 0 6px 40px rgba(255,85,51,0.3);
+      border-color: rgba(255,100,50,0.45);
+    }
 
-        h1, h2 {
-            color: #333;
-            margin: 5px 0;
-        }
+    .btn-icon {
+      width: 56px; height: 56px; border-radius: 16px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 26px; flex-shrink: 0;
+    }
+    .btn-mobile .btn-icon { background: rgba(232,25,44,0.15); }
+    .btn-crypto .btn-icon { background: rgba(255,100,50,0.15); }
 
-        h1 {
-            font-family: 'Lobster', cursive;
-            font-size: 22px;
-            animation: pulse 2s infinite;
-            color: #007bff;
-        }
+    .btn-text { flex: 1; }
+    .btn-text .btn-title {
+      font-size: 18px; font-weight: 700; line-height: 1.2;
+    }
+    .btn-mobile .btn-title { color: #FF6B6B; }
+    .btn-crypto .btn-title { color: #FF7043; }
 
-        @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-            100% { transform: scale(1); }
-        }
+    .btn-text .btn-sub {
+      font-size: 13px; color: #8A6369; margin-top: 4px;
+    }
 
-        .pricing {
-            font-size: 14px;
-            color: #555;
-            margin-bottom: 10px;
-        }
+    .btn-arrow {
+      font-size: 26px; color: rgba(255,255,255,0.25); flex-shrink: 0;
+    }
 
-        .pricing p {
-            font-weight: bold;
-            color: #ff0000;
-            font-size: 16px;
-            animation: pulse 2s infinite;
-        }
+    /* glow stripe on left edge */
+    .pay-btn::before {
+      content: '';
+      position: absolute; left: 0; top: 20%; bottom: 20%;
+      width: 3px; border-radius: 3px;
+    }
+    .btn-mobile::before { background: #E8192C; }
+    .btn-crypto::before { background: #FF5533; }
 
-        .crypto-section {
-            margin-top: 10px;
-        }
+    /* ── RIPPLE ── */
+    @keyframes ripple {
+      to { transform: scale(6); opacity: 0; }
+    }
+    .ripple-circle {
+      position: absolute; border-radius: 50%;
+      width: 50px; height: 50px;
+      margin-top: -25px; margin-left: -25px;
+      background: rgba(255,255,255,0.12);
+      animation: ripple 0.55s linear;
+      pointer-events: none;
+    }
 
-        .crypto-networks {
-            display: flex;
-            flex-wrap: wrap;
+    /* ── CONTACT BAR ── */
+    .contact-bar {
+      position: fixed; bottom: 0; left: 50%;
+      transform: translateX(-50%);
+      width: 100%; max-width: 480px;
+      padding: 16px 24px 28px;
+      background: linear-gradient(to top, #0A0304 72%, transparent);
+    }
+    .contact-btn {
+      display: flex; align-items: center; justify-content: center; gap: 10px;
+      width: 100%;
+      padding: 18px;
+      background: linear-gradient(135deg, #C0112A, #E8192C, #FF3347);
+      border: none; border-radius: 16px;
+      color: #fff; font-family: inherit;
+      font-size: 16px; font-weight: 700;
+      cursor: pointer; text-decoration: none;
+      box-shadow: 0 4px 28px rgba(232,25,44,0.5);
+      transition: transform 0.14s ease, box-shadow 0.2s ease;
+      position: relative; overflow: hidden;
+    }
+    .contact-btn:active {
+      transform: scale(0.97);
+      box-shadow: 0 2px 14px rgba(232,25,44,0.3);
+    }
+
+    /* ── NOTICE BOX ── */
+    .notice {
+      width: 100%;
+      margin-top: 28px;
+      background: rgba(232, 25, 44, 0.07);
+      border: 1px solid rgba(232, 25, 44, 0.2);
+      border-radius: 14px;
+      padding: 16px 18px;
+      display: flex;
+      gap: 13px;
+      align-items: flex-start;
+    }
+    .notice-icon {
+      font-size: 20px;
+      flex-shrink: 0;
+      margin-top: 1px;
+      line-height: 1;
+    }
+    .notice-body {}
+    .notice-title {
+      font-size: 13px;
+      font-weight: 700;
+      color: #FF6B6B;
+      margin-bottom: 5px;
+      letter-spacing: 0.1px;
+    }
+    .notice-text {
+      font-size: 13px;
+      color: #8A6369;
+      line-height: 1.6;
+    }
+    .notice-text strong {
+      color: #C8929A;
+      font-weight: 600;
+    }
+
+    /* ── ENTRY ANIMATION ── */
+    @keyframes slide-up {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .brand-icon { animation: slide-up 0.4s ease both; }
+    h1          { animation: slide-up 0.4s 0.06s ease both; }
+    .subtitle   { animation: slide-up 0.4s 0.1s  ease both; }
+    .btn-mobile { animation: slide-up 0.4s 0.16s ease both; }
+    .btn-crypto { animation: slide-up 0.4s 0.24s ease both; }
+    .notice     { animation: slide-up 0.4s 0.32s ease both; }
+  </style>
+</head>
+<body>
+
+  <div class="brand-icon">💳</div>
+  <h1>Pay Now</h1>
+  <p class="subtitle">Choose your payment method</p>
+
+  <div class="buttons">
+
+    <!-- Button 1: Mobile & Card -->
+    <a class="pay-btn btn-mobile" href="https://wallet.wearemarz.com/pay/5fa9e8f1-363d-43a7-a3bc-04e2311a756f" target="_blank" rel="noopener">
+      <div class="btn-icon">📲</div>
+      <div class="btn-text">
+        <div class="btn-title">Mobile &amp; Card</div>
+        <div class="btn-sub">Mobile money · Debit · Credit · Wallet</div>
+      </div>
+      <div class="btn-arrow">›</div>
+    </a>
+
+    <!-- Button 2: Crypto -->
+    <a class="pay-btn btn-crypto" href="https://pay.oxapay.com/17480357" target="_blank" rel="noopener">
+      <div class="btn-icon">₿</div>
+      <div class="btn-text">
+        <div class="btn-title">Crypto Pay</div>
+        <div class="btn-sub">BTC · ETH · USDT · BNB</div>
+      </div>
+      <div class="btn-arrow">›</div>
+    </a>
+
+  </div>
+
+  <!-- Notice -->
+  <div class="notice">
+    <div class="notice-icon">⚠️</div>
+    <div class="notice-body">
+      <div class="notice-title">VIP Not Activated?</div>
+      <div class="notice-text">
+        If your <strong>VIP access</strong> is not activated automatically after payment,
+        don't worry — tap <strong>Contact Us</strong> below and our team will sort it out for you right away.
+      </div>
+    </div>
+  </div>
+
+  <!-- Fixed Contact Button -->
+  <div class="contact-bar">
+    <a class="contact-btn" href="mailto: bettviptitan@gmail.com?subject=Payment%20Help&body=Hello%2C%20I%20need%20help%20with%20my%20payment.">
+      ✉️ &nbsp;&nbsp;Contact Us
+    </a>
+  </div>
+
+  <script>
+    document.querySelectorAll('.pay-btn, .contact-btn').forEach(el => {
+      el.addEventListener('click', function(e) {
+        const r = document.createElement('span');
+        r.classList.add('ripple-circle');
+        const rect = this.getBoundingClientRect();
+        r.style.left = (e.clientX - rect.left) + 'px';
+        r.style.top  = (e.clientY - rect.top)  + 'px';
+        this.appendChild(r);
+        r.addEventListener('animationend', () => r.remove());
+      });
+    });
+  </script>
+
+</body>
+</html>
             justify-content: space-between;
         }
 
